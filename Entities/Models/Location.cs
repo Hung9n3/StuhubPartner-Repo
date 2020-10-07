@@ -1,10 +1,6 @@
 ﻿using Entities.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.Design;
-using System.Text;
-
 namespace Entities
 {
     public class Location
@@ -12,6 +8,10 @@ namespace Entities
         [Key]
         public int LocationID { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
+        public bool LocationType { get; set; }
+        public string LocationLogo { get; set; }
+        public ICollection<LocationImage> LocationImages { get; set; }
         public Address Address { get; set; }
         public Menu Menu { get; set; }
     }

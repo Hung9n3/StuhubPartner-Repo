@@ -1,16 +1,16 @@
 ﻿using Entities;
 using Entities.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataObject
 {
     public class LocationDTO
     {
         public string Name { get; set; }
-        public int CityID { get; set; }
-        public int DistrictID { get; set; }
+        public string Description { get; set; }
+        public bool LocationType { get; set; }
+        public string LocationLogo { get; set; }
+        public ICollection<LocationImage> LocationImages { get; set; }
         public Address Address { get; set; }
         public Menu Menu { get; set; }
     }
