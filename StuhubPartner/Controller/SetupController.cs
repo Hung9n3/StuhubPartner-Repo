@@ -34,7 +34,7 @@ namespace StuhubPartner.Controller
             _locationRepository = locationRepository;
         }
         [HttpPost]
-        public async Task<IActionResult> AddCity([FromBody] CityAddDTO _city)
+        public async Task<IActionResult> AddCity([FromBody] CityDTO _city)
         {
             var city = _mapper.Map<City>(_city);
             _cityRepository.Create(city);
@@ -42,7 +42,7 @@ namespace StuhubPartner.Controller
             return Ok();
         }
         [HttpPost("{id}")]
-        public async Task<IActionResult> AddDistrict([FromBody] DistrictAddDTO _district, int id)
+        public async Task<IActionResult> AddDistrict([FromBody] DistrictDTO _district, int id)
         {
             var _city = await _cityRepository.FindByIdAsync(id);
             _district.City = _city;
@@ -65,10 +65,10 @@ namespace StuhubPartner.Controller
             return district;
         }
         [HttpPost]
-        public async Task<IActionResult> AddLocation([FromBody]  LocationDTO _location)
+        public async Task<IActionResult> AddLocation([FromBody]LocationDTO _location)
         {
-            var city = await _cityRepository.FindByIdAsync(_location.CityID);
-            var district = await _districtRepository.FindByIdAsync(_location.DistrictID);
+            var city = await _cityRepository.FindByIdAsync(_location.Address.City.CityID);
+            var district = await _districtRepository.FindByIdAsync(_location.Address.District.DistrictID);
             Address address = new Address
             {
                 City = city,
