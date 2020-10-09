@@ -23,8 +23,11 @@ namespace Repository
             _context = repositoryContext;
             _dbSet = _context.Set<T>();
         }
-        public virtual IQueryable<T> FindAll(Expression<Func<T, bool>>? predicate = null)
-            => _dbSet.WhereIf(predicate != null, predicate!);
+        public async Task<List<T>> FindAll()
+        {
+            var items = await _context.Set<T>().AsNoTracking().ToListAsync();
+            return items;
+        }
 
         public virtual async Task<T> FindByIdAsync(int id, CancellationToken cancellationToken = default)
         {
