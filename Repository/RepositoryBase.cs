@@ -1,52 +1,51 @@
 ﻿using Contracts;
 using Entities;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Repository
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
-        public RepositoryContext repositoryContext { get; set; }
+        protected readonly RepositoryContext _context;
+        protected readonly DbSet<T> _dbSet;
         public RepositoryBase(RepositoryContext repositoryContext)
         {
-            this.repositoryContext = repositoryContext;
+            _context = repositoryContext;
+            _dbSet = _context.Set<T>();
         }
-        public void Create(T entity)
-        {
-            repositoryContext.Set<T>().Add(entity);
-        }
+        public virtual IQueryable<T> FindAll(Expression<Func<T, bool>>? predicate = null)
+            => _dbSet.WhereIf(predicate != null, predicate!);
 
-        public void Delete(T entity)
+        public virtual async Task<T> FindByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            repositoryContext.Set<T>().Remove(entity);
-        }
-
-        public async Task<List<T>> FindAll()
-        {
-            var items = await repositoryContext.Set<T>().AsNoTracking().ToListAsync();
-            return items;
-        }
-
-        public System.Linq.IQueryable<T> FindByCondition(System.Linq.Expressions.Expression<Func<T, bool>> expression)
-        {
-            return repositoryContext.Set<T>().Where(expression).AsNoTracking();
-        }
-
-        public void Update(T entity)
-        {
-            repositoryContext.Set<T>().Update(entity);
-        }
-        public virtual async Task<T> FindByIdAsync(int id)
-        {
-            var item = await repositoryContext.FindAsync<T>(id);
+            var item = await _dbSet.FindAsync(id);
             return item;
         }
-        public Task SaveAsync() => repositoryContext.SaveChangesAsync();
+        public void Create(T entities)
+        {
+            _dbSet.Add(entities);
+        }
+        public void Update(T entity)
+        {
+            _dbSet.Update(entity);
+        }
+        public virtual void Delete(T entity)
+        {
+            _dbSet.Remove(entity);
+        }
+        public Task SaveChangesAsync(CancellationToken cancellationToken = default) 
+            => _context.SaveChangesAsync(cancellationToken);
+        public Task<IDbContextTransaction> BeginTransactionAsync()
+            => _context.Database.BeginTransactionAsync();
     }
 }
