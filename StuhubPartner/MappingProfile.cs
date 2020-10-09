@@ -13,8 +13,6 @@ namespace StuhubPartner
         public MappingProfile()
         {
             // Add as many of these lines as you need to map your objects
-            CreateMap<CityAddDTO, City>().ForMember(x => x.CityID, opt => opt.Ignore());
-            CreateMap<City, CityShow>();
             CreateMap<City, CityDTO>();
             CreateMap<CityDTO, City>().ForMember(x => x.CityID, opt => opt.Ignore());
             CreateMap<District, DistrictDTO>();
