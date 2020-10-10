@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Repository
 {
-    class MenuRepository : RepositoryBase<Menu>, IMenuRepository
+    public class MenuRepository : RepositoryBase<Menu>, IMenuRepository
     {
         public MenuRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {

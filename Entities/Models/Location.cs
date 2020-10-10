@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace Entities
 {
-    public class Location
+    public class Location : BaseEntity
     {
-        [Key]
-        public int LocationID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public bool LocationType { get; set; }

@@ -6,10 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
-    public class EmployeeInfo
+    public class EmployeeInfo : BaseEntity
     {
-        [Key]
-        public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public Location Location { get; set; }
         public Address Address { get; set; } 

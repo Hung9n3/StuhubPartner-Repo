@@ -1,9 +1,8 @@
 ﻿
 namespace Entities.Models
 {
-    public class LocationImage
+    public class LocationImage : BaseEntity
     {
-        public int Id { get; set; }
         public string ImageUrl { get; set; }
     }
 }

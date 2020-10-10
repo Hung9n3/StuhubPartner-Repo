@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataObject
 {
-    class EmployeeInfoDTO
+    class EmployeeInfoDTO : BaseEntityDTO
     {
         public string EmployeeName { get; set; }
         public int CityId { get; set; }
