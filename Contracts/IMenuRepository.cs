@@ -7,5 +7,6 @@ namespace Contracts
 {
     public interface IMenuRepository : IRepositoryBase<Menu>
     {
+
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DataObject
 {
-    public class LocationDTO
+    public class LocationDTO : BaseEntityDTO
     {
         public string Name { get; set; }
         public string Description { get; set; }

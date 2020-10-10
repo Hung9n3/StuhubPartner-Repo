@@ -45,7 +45,7 @@ namespace StuhubPartner.Controller
             var city = _mapper.Map<City>(_city);
             _cityRepository.Create(city);
             await _cityRepository.SaveChangesAsync(cancellationToken);
-            return CreatedAtAction(nameof(Get), new { city.CityID }, _mapper.Map<CityDTO>(city));
+            return CreatedAtAction(nameof(Get), new { city.Id }, _mapper.Map<CityDTO>(city));
         }
 
         [HttpPut("{id}")]

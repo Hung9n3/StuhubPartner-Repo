@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Repository
@@ -14,9 +15,9 @@ namespace Repository
         public DistrictRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
-        public override async Task<District> FindByIdAsync(int id)
+        public override async Task<District> FindByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var item = await repositoryContext.Districts.Where(x => x.DistrictID == id)
+            var item = await _context.Districts.Where(x => x.Id == id)
                                                         .AsNoTracking().FirstAsync();
             return item;
         }

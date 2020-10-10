@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataObject
 {
-    public class CityDTO
+    public class CityDTO : BaseEntityDTO
     {
         public int CityID { get; set; }
         public string CityName { get; set; }

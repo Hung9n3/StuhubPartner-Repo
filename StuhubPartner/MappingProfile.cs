@@ -14,10 +14,10 @@ namespace StuhubPartner
         {
             // Add as many of these lines as you need to map your objects
             CreateMap<City, CityDTO>();
-            CreateMap<CityDTO, City>().ForMember(x => x.CityID, opt => opt.Ignore());
+            CreateMap<CityDTO, City>().ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<District, DistrictDTO>();
-            CreateMap<DistrictDTO, District>().ForMember(x => x.DistrictID, opt => opt.Ignore());
-            CreateMap<LocationDTO, Location>().ForMember(x => x.LocationID, opt => opt.Ignore());
+            CreateMap<DistrictDTO, District>().ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<LocationDTO, Location>().ForMember(x => x.Id, opt => opt.Ignore());
         }
     }
 }
