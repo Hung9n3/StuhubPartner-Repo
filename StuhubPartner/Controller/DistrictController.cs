@@ -11,16 +11,20 @@ using System.Threading.Tasks;
 
 namespace StuhubPartner.Controller
 {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
     public class DistrictController : ControllerBase
     {
         private RepositoryContext _repositoryContext;
         private readonly IDistrictRepository _districtRepository;
+        private readonly ICityRepository _cityRepository;
         private readonly IMapper _mapper;
-        public DistrictController(IDistrictRepository districtRepository, RepositoryContext repositoryContext, IMapper mapper) 
+        public DistrictController(IDistrictRepository districtRepository, ICityRepository cityRepository, RepositoryContext repositoryContext, IMapper mapper)
         {
             _mapper = mapper;
             _districtRepository = districtRepository;
             _repositoryContext = repositoryContext;
+            _cityRepository = cityRepository;
         }
 
         [HttpGet]
@@ -30,7 +34,7 @@ namespace StuhubPartner.Controller
             return Ok(_mapper.Map<IEnumerable<DistrictDTO>>(districts));
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var district = await _districtRepository.FindByIdAsync(id);

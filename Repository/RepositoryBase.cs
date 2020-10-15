@@ -25,7 +25,7 @@ namespace Repository
         }
         public async Task<List<T>> FindAll()
         {
-            var items = await _context.Set<T>().AsNoTracking().ToListAsync();
+            var items = await _dbSet.AsNoTracking().ToListAsync();
             return items;
         }
 

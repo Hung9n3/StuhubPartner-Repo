@@ -16,7 +16,7 @@ namespace StuhubPartner.Controller
         private RepositoryContext _repositoryContext;
         private readonly ICityRepository _cityRepository;
         private readonly IMapper _mapper;
-        public CityController(ICityRepository cityRepository,ILocationRepository locationRepository, IAddressRepository addressRepository, IDistrictRepository districtRepository, RepositoryContext repositoryContext, IMapper mapper)
+        public CityController(ICityRepository cityRepository,  RepositoryContext repositoryContext, IMapper mapper)
         {
             _mapper = mapper;
             _cityRepository = cityRepository;
@@ -29,7 +29,7 @@ namespace StuhubPartner.Controller
             return Ok(_mapper.Map<IEnumerable<CityDTO>>(cities));
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id) 
         {
             var city = await _cityRepository.FindByIdAsync(id);
@@ -48,21 +48,23 @@ namespace StuhubPartner.Controller
             return CreatedAtAction(nameof(Get), new { city.Id }, _mapper.Map<CityDTO>(city));
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> Update(CityDTO dto, CancellationToken cancellationToken = default) 
         {
             var city = await _cityRepository.FindByIdAsync(dto.CityID, cancellationToken);
             if (city is null)
                 return NotFound();
 
-            _mapper.Map(dto, city);
+             _mapper.Map(dto, city);
             await _cityRepository.SaveChangesAsync(cancellationToken);
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Remove(CityDTO dto, CancellationToken cancellationToken = default) 
         {
+            //wtf pass dto to delete ????!!!
+            //nonnnnnnnnn......
             var city = await _cityRepository.FindByIdAsync(dto.CityID, cancellationToken);
             if (city is null)
                 return NotFound();
@@ -70,7 +72,7 @@ namespace StuhubPartner.Controller
             _cityRepository.Delete(city);
             await _cityRepository.SaveChangesAsync(cancellationToken);
 
-            return NoContent();
+            return Ok();
         }
     }
 }
