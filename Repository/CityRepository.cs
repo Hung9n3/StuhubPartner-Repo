@@ -19,7 +19,7 @@ namespace Repository
         }
         public override async Task<City> FindByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var item = await _context.Cities.Where(x => x.Id == id).Include(x => x.Districts)
+            var item = await _dbSet.Where(x => x.Id == id).Include(x => x.Districts)
                                                .AsNoTracking().FirstAsync();
             return item;
         }
