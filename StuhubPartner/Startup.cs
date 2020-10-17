@@ -34,12 +34,11 @@ namespace StuhubPartner
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
             services.AddControllers();
-            services.AddDbContext<RepositoryContext>(options =>
-                                                options.UseSqlServer
-                                                (Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<ICityRepository, CityRepository>();
-            services.AddScoped<IDistrictRepository, DistrictRepository>();
-            services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddDbContextPool<RepositoryContext>(options =>
+                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<ICityRepository, CityRepository>();
+            services.AddTransient<IDistrictRepository, DistrictRepository>();
+            services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<IAddressRepository, AddressRepository>();
             // Auto Mapper Configurations
             var mapperConfig = new MapperConfiguration(mc =>
