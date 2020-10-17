@@ -4,14 +4,16 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20201012084115_version 1.0.2")]
+    partial class version102
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,10 +134,10 @@ namespace Entities.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DistrictId")
+                    b.Property<int?>("DistrictId")
                         .HasColumnType("int");
 
                     b.Property<string>("HouseNo")
@@ -163,16 +165,10 @@ namespace Entities.Migrations
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Attendance")
-                        .HasColumnType("int");
-
                     b.Property<string>("EmployeeName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Salary")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -243,15 +239,11 @@ namespace Entities.Migrations
                 {
                     b.HasOne("Entities.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
 
                     b.HasOne("Entities.District", "District")
                         .WithMany()
-                        .HasForeignKey("DistrictId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DistrictId");
 
                     b.Navigation("City");
 
