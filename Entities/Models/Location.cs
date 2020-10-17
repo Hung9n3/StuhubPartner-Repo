@@ -12,5 +12,6 @@ namespace Entities
         public ICollection<LocationImage> LocationImages { get; set; }
         public Address Address { get; set; }
         public Menu Menu { get; set; }
+        public ICollection<EmployeeInfo> employeeInfos { get; set; }
     }
 }

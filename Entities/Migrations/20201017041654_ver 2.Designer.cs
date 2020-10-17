@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20201012090941_version 1.0.3")]
-    partial class version103
+    [Migration("20201017041654_ver 2")]
+    partial class ver2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,10 +134,10 @@ namespace Entities.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DistrictId")
+                    b.Property<int>("DistrictId")
                         .HasColumnType("int");
 
                     b.Property<string>("HouseNo")
@@ -165,10 +165,16 @@ namespace Entities.Migrations
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Attendance")
+                        .HasColumnType("int");
+
                     b.Property<string>("EmployeeName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Salary")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -239,11 +245,15 @@ namespace Entities.Migrations
                 {
                     b.HasOne("Entities.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entities.District", "District")
                         .WithMany()
-                        .HasForeignKey("DistrictId");
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("City");
 
@@ -257,8 +267,10 @@ namespace Entities.Migrations
                         .HasForeignKey("AddressId");
 
                     b.HasOne("Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
+                        .WithMany("employeeInfos")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
 
@@ -279,6 +291,8 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Location", b =>
                 {
+                    b.Navigation("employeeInfos");
+
                     b.Navigation("LocationImages");
                 });
 

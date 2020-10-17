@@ -2,7 +2,7 @@
 
 namespace Entities.Migrations
 {
-    public partial class version103 : Migration
+    public partial class ver1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

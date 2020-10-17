@@ -66,9 +66,9 @@ namespace StuhubPartner.Controller
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Remove(DistrictDTO dto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Remove(int id, CancellationToken cancellationToken = default)
         {
-            var district = await _districtRepository.FindByIdAsync(dto.id, cancellationToken);
+            var district = await _districtRepository.FindByIdAsync(id, cancellationToken);
             if (district is null)
                 return NotFound();
 

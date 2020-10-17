@@ -61,11 +61,11 @@ namespace StuhubPartner.Controller
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Remove(CityDTO dto, CancellationToken cancellationToken = default) 
+        public async Task<IActionResult> Remove(int id, CancellationToken cancellationToken = default) 
         {
             //wtf pass dto to delete ????!!!
             //nonnnnnnnnn......
-            var city = await _cityRepository.FindByIdAsync(dto.CityID, cancellationToken);
+            var city = await _cityRepository.FindByIdAsync(id, cancellationToken);
             if (city is null)
                 return NotFound();
 

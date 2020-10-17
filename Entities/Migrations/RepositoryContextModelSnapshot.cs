@@ -169,7 +169,7 @@ namespace Entities.Migrations
                     b.Property<string>("EmployeeName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<int>("Salary")
@@ -265,8 +265,10 @@ namespace Entities.Migrations
                         .HasForeignKey("AddressId");
 
                     b.HasOne("Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
+                        .WithMany("employeeInfos")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
 
@@ -287,6 +289,8 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Location", b =>
                 {
+                    b.Navigation("employeeInfos");
+
                     b.Navigation("LocationImages");
                 });
 

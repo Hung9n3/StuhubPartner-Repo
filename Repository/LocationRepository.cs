@@ -17,7 +17,7 @@ namespace Repository
         }
         public override async Task<Location> FindByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var location = await _dbSet.Where(x => x.Id == id).Include(x => x.Address).AsNoTracking().FirstAsync();
+            var location = await _dbSet.Where(x => x.Id == id).Include(x => x.employeeInfos).Include(x => x.Address).AsNoTracking().FirstAsync();
             return location;
         }
     }
