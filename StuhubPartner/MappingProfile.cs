@@ -23,6 +23,10 @@ namespace StuhubPartner
             CreateMap<LocationDTO, Address>().ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<Location, LocationDTO>();
             CreateMap<LocationDTO, Location>().ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<EmployeeInfo, EmployeeDTO>();
+            CreateMap<EmployeeDTO, Address>();
+            CreateMap<EmployeeDTO, EmployeeInfo>().ForMember(x => x.Id, opt => opt.Ignore());
+
         }
     }
 }

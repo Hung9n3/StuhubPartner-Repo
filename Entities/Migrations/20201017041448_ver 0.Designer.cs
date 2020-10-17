@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20201002030007_version 1.0.0")]
-    partial class version100
+    [Migration("20201017041448_ver 0")]
+    partial class ver0
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.City", b =>
                 {
-                    b.Property<int>("CityID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -32,17 +32,14 @@ namespace Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Population")
-                        .HasColumnType("int");
-
-                    b.HasKey("CityID");
+                    b.HasKey("Id");
 
                     b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Entities.District", b =>
                 {
-                    b.Property<int>("DistrictID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -54,7 +51,7 @@ namespace Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DistrictID");
+                    b.HasKey("Id");
 
                     b.HasIndex("CityID");
 
@@ -63,7 +60,7 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Item", b =>
                 {
-                    b.Property<int>("ItemID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -71,76 +68,142 @@ namespace Entities.Migrations
                     b.Property<string>("ItemName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MenuID")
+                    b.Property<int?>("MenuId")
                         .HasColumnType("int");
 
                     b.Property<bool>("isFood")
                         .HasColumnType("bit");
 
-                    b.HasKey("ItemID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("MenuID");
+                    b.HasIndex("MenuId");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("Entities.Location", b =>
                 {
-                    b.Property<int>("LocationID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("AddressID")
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MenuID")
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocationLogo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LocationType")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("MenuId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("LocationID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("AddressID");
+                    b.HasIndex("AddressId");
 
-                    b.HasIndex("MenuID");
+                    b.HasIndex("MenuId");
 
                     b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Entities.Menu", b =>
                 {
-                    b.Property<int>("MenuID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.HasKey("MenuID");
+                    b.HasKey("Id");
 
-                    b.ToTable("Menu");
+                    b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("Entities.Models.Address", b =>
                 {
-                    b.Property<int>("AddressID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CityID")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DistrictID")
+                    b.Property<int?>("DistrictId")
                         .HasColumnType("int");
 
-                    b.HasKey("AddressID");
+                    b.Property<string>("HouseNo")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CityID");
+                    b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("DistrictID");
+                    b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("DistrictId");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("Entities.Models.EmployeeInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Attendance")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmployeeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Salary")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("Entities.Models.LocationImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("LocationImage");
                 });
 
             modelBuilder.Entity("Entities.District", b =>
@@ -158,7 +221,7 @@ namespace Entities.Migrations
                 {
                     b.HasOne("Entities.Menu", "Menu")
                         .WithMany("Items")
-                        .HasForeignKey("MenuID");
+                        .HasForeignKey("MenuId");
 
                     b.Navigation("Menu");
                 });
@@ -167,11 +230,11 @@ namespace Entities.Migrations
                 {
                     b.HasOne("Entities.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressID");
+                        .HasForeignKey("AddressId");
 
                     b.HasOne("Entities.Menu", "Menu")
                         .WithMany()
-                        .HasForeignKey("MenuID");
+                        .HasForeignKey("MenuId");
 
                     b.Navigation("Address");
 
@@ -182,20 +245,53 @@ namespace Entities.Migrations
                 {
                     b.HasOne("Entities.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityID");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entities.District", "District")
                         .WithMany()
-                        .HasForeignKey("DistrictID");
+                        .HasForeignKey("DistrictId");
 
                     b.Navigation("City");
 
                     b.Navigation("District");
                 });
 
+            modelBuilder.Entity("Entities.Models.EmployeeInfo", b =>
+                {
+                    b.HasOne("Entities.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
+                    b.HasOne("Entities.Location", "Location")
+                        .WithMany("employeeInfos")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("Entities.Models.LocationImage", b =>
+                {
+                    b.HasOne("Entities.Location", null)
+                        .WithMany("LocationImages")
+                        .HasForeignKey("LocationId");
+                });
+
             modelBuilder.Entity("Entities.City", b =>
                 {
                     b.Navigation("Districts");
+                });
+
+            modelBuilder.Entity("Entities.Location", b =>
+                {
+                    b.Navigation("employeeInfos");
+
+                    b.Navigation("LocationImages");
                 });
 
             modelBuilder.Entity("Entities.Menu", b =>

@@ -40,6 +40,7 @@ namespace StuhubPartner
             services.AddTransient<IDistrictRepository, DistrictRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<IAddressRepository, AddressRepository>();
+            services.AddTransient<IEmployeeInfoRepository, EmployeeInfoRepository>();
             // Auto Mapper Configurations
             var mapperConfig = new MapperConfiguration(mc =>
             {

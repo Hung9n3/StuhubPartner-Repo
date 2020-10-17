@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Entities;
+using Entities.Models;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
-namespace Entities.Models
+namespace DataObject
 {
-    public class EmployeeInfo : BaseEntity
+    public class EmployeeDTO : BaseEntityDTO
     {
         public string EmployeeName { get; set; }
         public int Salary { get; set; }
         public int Attendance { get; set; }
-        [ForeignKey("LocationId")]
         public int LocationId { get; set; }
         public Location Location { get; set; }
-        public Address Address { get; set; } 
+        public Address Address { get; set; }
     }
 }

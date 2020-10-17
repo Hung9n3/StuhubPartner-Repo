@@ -1,9 +1,10 @@
-﻿using Entities.Models;
+﻿using Entities;
+using Entities.Models;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-namespace Entities
+
+namespace DataObject
 {
-    public class Location : BaseEntity
+    public class LocationDTO : BaseEntityDTO
     {
         public string Name { get; set; }
         public string Description { get; set; }

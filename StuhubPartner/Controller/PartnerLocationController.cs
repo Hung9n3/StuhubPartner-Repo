@@ -9,6 +9,7 @@ using Contracts;
 using Microsoft.EntityFrameworkCore;
 using Entities.Models;
 using System.Threading;
+using DataObject.LocationPost;
 
 namespace StuhubPartner.Controller
 {
@@ -40,10 +41,11 @@ namespace StuhubPartner.Controller
         {
             var location = await _locationRepository.FindByIdAsync(id,cancellation);
             if (location is null) return NotFound();
-            return Ok(_mapper.Map<LocationDTO>(location));
+            var _location = _mapper.Map<LocationDTO>(location);
+            return Ok(_location);
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]LocationDTO _location, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create([FromBody]LocationPost _location, CancellationToken cancellationToken = default)
         {
             var address = _mapper.Map<Address>(_location);
             _repositoryContext.Addresses.Add(address);
@@ -54,7 +56,7 @@ namespace StuhubPartner.Controller
             return CreatedAtAction(nameof(Get), new { location.Id }, _mapper.Map<LocationDTO>(location));
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(LocationDTO _locationDTO, int id, CancellationToken cancellation = default)
+        public async Task<IActionResult> Update(LocationPost _locationDTO, int id, CancellationToken cancellation = default)
         {
             var location = await _locationRepository.FindByIdAsync(id, cancellation);
             _mapper.Map(_locationDTO, location.Address);
@@ -64,6 +66,16 @@ namespace StuhubPartner.Controller
              _mapper.Map(_locationDTO, location);
             _repositoryContext.Locations.Update(location);
             await _locationRepository.SaveChangesAsync(cancellation);
+            return Ok();
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Remove(int id)
+        {
+            var location = await _locationRepository.FindByIdAsync(id);
+            var address = location.Address;
+            _repositoryContext.Addresses.Remove(address);
+            _repositoryContext.Locations.Remove(location);
+           await _repositoryContext.SaveChangesAsync();
             return Ok();
         }
     }

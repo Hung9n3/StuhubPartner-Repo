@@ -2,32 +2,9 @@
 
 namespace Entities.Migrations
 {
-    public partial class version104 : Migration
+    public partial class ver2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Addresses_Districts_DistrictId",
-                table: "Addresses");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "DistrictId",
-                table: "Addresses",
-                type: "int",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Addresses_Districts_DistrictId",
-                table: "Addresses",
-                column: "DistrictId",
-                principalTable: "Districts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Addresses_Districts_DistrictId",
@@ -49,7 +26,30 @@ namespace Entities.Migrations
                 column: "DistrictId",
                 principalTable: "Districts",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Addresses_Districts_DistrictId",
+                table: "Addresses");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "DistrictId",
+                table: "Addresses",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Addresses_Districts_DistrictId",
+                table: "Addresses",
+                column: "DistrictId",
+                principalTable: "Districts",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }
