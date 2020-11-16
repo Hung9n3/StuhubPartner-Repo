@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Repository;
 using Contracts;
 using AutoMapper;
+using Entities.Models.IdentityContext;
+using Microsoft.AspNetCore.Identity;
 
 namespace StuhubPartner
 {
@@ -29,18 +31,16 @@ namespace StuhubPartner
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllersWithViews()
+            services.AddControllers()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
             services.AddControllers();
-            services.AddDbContextPool<RepositoryContext>(options =>
-                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<ICityRepository, CityRepository>();
-            services.AddTransient<IDistrictRepository, DistrictRepository>();
-            services.AddTransient<ILocationRepository, LocationRepository>();
-            services.AddTransient<IAddressRepository, AddressRepository>();
-            services.AddTransient<IEmployeeInfoRepository, EmployeeInfoRepository>();
+            //services.AddDbContextPool<>(options =>
+            //         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<User, Role>()
+                    .AddEntityFrameworkStores<IdentityContext>()
+                    .AddUserManager<UserManager>();
             // Auto Mapper Configurations
             var mapperConfig = new MapperConfiguration(mc =>
             {
