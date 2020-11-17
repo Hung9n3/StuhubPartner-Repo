@@ -1,20 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Repository;
-using Contracts;
 using AutoMapper;
 using Entities.Models.IdentityContext;
-using Microsoft.AspNetCore.Identity;
+using Repository.IdentityManager;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Entities.Models.SmartZoneContext;
+using AutoMapper.EquivalencyExpression;
 
 namespace StuhubPartner
 {
@@ -30,28 +26,44 @@ namespace StuhubPartner
 
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers()
-    .AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddControllers();
-            //services.AddDbContextPool<>(options =>
-            //         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContextPool<SmartZoneContext>(options =>
+                     options.UseSqlServer(Configuration.GetConnectionString("SmartZoneContext")));
             services.AddIdentity<User, Role>()
                     .AddEntityFrameworkStores<IdentityContext>()
                     .AddUserManager<UserManager>();
-            // Auto Mapper Configurations
-            var mapperConfig = new MapperConfiguration(mc =>
+
+            services.AddAuthentication(options =>
             {
-                mc.AddProfile(new MappingProfile());
+                options.DefaultAuthenticateScheme = "jwt";
+                options.DefaultChallengeScheme = "jwt";
+            })
+              .AddCookie(cfg => cfg.SlidingExpiration = true)
+              .AddJwtBearer("jwt", cfg =>
+              {
+                  cfg.RequireHttpsMetadata = false;
+                  cfg.SaveToken = true;
+
+                  cfg.TokenValidationParameters = new TokenValidationParameters()
+                  {
+                      ValidIssuer = Configuration["JwtTokens:Issuer"],
+                      ValidAudience = Configuration["JwtTokens:Issuer"],
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtTokens:Key"]))
+                  };
+
+              });
+
+            services.AddAuthorization(options =>
+            {
+                //options.AddPolicy(Constants.Policies.CompanyOnly, policy => policy.RequireClaim("CompanyType", "Company"));
             });
-
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
-
-            services.AddMvc();
-
+            // Auto Mapper Configurations
+            services.AddSingleton(new MapperConfiguration(mc =>
+            {
+                mc.AddCollectionMappers();
+                mc.AddProfile(new MappingProfile());
+            }).CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +75,9 @@ namespace StuhubPartner
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
