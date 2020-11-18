@@ -9,13 +9,7 @@ namespace Entities.Models.IdentityContext
 {
     public class IdentityContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
-        public IdentityContext() : base()
-        {
-        }
-
-        public IdentityContext(DbContextOptions options) : base(options)
-        {
-        }
+        public IdentityContext(DbContextOptions options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

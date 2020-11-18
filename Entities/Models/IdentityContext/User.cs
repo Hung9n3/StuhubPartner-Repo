@@ -12,6 +12,7 @@ namespace Entities.Models.IdentityContext
         public string LastName { get; set; } = String.Empty;
 
         public int? SmartZoneId { get; set; }
+        public DateTime DateJoin { get; set; }
         public bool IsDeleted { get; set; } = false;
         public bool IsExpired { get; set; } = false;
         public virtual ICollection<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
