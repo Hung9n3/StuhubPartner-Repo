@@ -28,6 +28,7 @@ namespace StuhubPartner
         {
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContextPool<SmartZoneContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SmartZoneContext")));
+            services.AddDbContext<IdentityContext>(option => option.UseSqlServer(Configuration.GetConnectionString("IdentityContext")));
             services.AddIdentity<User, Role>()
                     .AddEntityFrameworkStores<IdentityContext>()
                     .AddUserManager<UserManager>();

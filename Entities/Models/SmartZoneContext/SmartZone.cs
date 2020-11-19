@@ -16,6 +16,6 @@ namespace Entities.Models.SmartZoneContext
         public bool IsDeleted { get; set; }
         public bool IsExpired { get; set; }
 
-        public User SmartZoneOwner { get; set; }
+        //public User SmartZoneOwner { get; set; }
     }
 }
