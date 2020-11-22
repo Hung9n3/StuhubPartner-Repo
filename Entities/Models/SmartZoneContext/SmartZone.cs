@@ -1,5 +1,4 @@
-﻿using Entities.Models.IdentityContext;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +14,5 @@ namespace Entities.Models.SmartZoneContext
         public string SmartZoneAddress2 { get; set; } = String.Empty;
         public bool IsDeleted { get; set; }
         public bool IsExpired { get; set; }
-
-        public User SmartZoneOwner { get; set; }
     }
 }

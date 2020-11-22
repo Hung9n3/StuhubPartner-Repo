@@ -5,8 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using Entities.Models.IdentityContext;
-using Repository.IdentityManager;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Entities.Models.SmartZoneContext;
@@ -28,9 +26,6 @@ namespace StuhubPartner
         {
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContextPool<SmartZoneContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SmartZoneContext")));
-            services.AddIdentity<User, Role>()
-                    .AddEntityFrameworkStores<IdentityContext>()
-                    .AddUserManager<UserManager>();
 
             services.AddAuthentication(options =>
             {
